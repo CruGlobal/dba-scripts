@@ -1,3 +1,5 @@
+set feedback off
+
 SELECT SID,
   SERIAL#,
   CONTEXT,
