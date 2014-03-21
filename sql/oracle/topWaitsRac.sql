@@ -19,7 +19,7 @@ col time_secs format 999,999.99 "Time (s)"
 col pct format 99.99 "Time|pct"
 set pagesize 10000
 set lines 80
-set echo on 
+--set echo on 
 
 SELECT wait_class time_cat, ROUND((time_secs), 2) time_secs,
        ROUND((time_secs) * 100 / SUM(time_secs) OVER (), 2) pct

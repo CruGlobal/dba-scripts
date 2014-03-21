@@ -1,8 +1,8 @@
 set lines 9999
 set pagesize 100
 column schema format a10
-column object_type format a20
-column object_name format a30
+column object_type format a12
+column object_name format a25
 
 SELECT *
   FROM (  SELECT T.OWNER AS SCHEMA,

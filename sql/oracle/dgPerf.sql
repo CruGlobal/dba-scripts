@@ -25,7 +25,7 @@ col write_time format 999,999 heading "Write Time|Secs"
 col avg_read_ms format 999.99 heading "Avg Read|ms"
 set pagesize 1000
 set lines 80
-set echo on
+--set echo on
 
 SELECT name, ROUND(total_mb / 1024) total_gb, active_disks,
        reads / 1000 reads1k, writes / 1000 writes1k,

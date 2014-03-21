@@ -23,7 +23,7 @@ COLUMN total_waits format 999999
 COLUMN total_us format 999999999
 COLUMN pct_time format 99.99
 COLUMN avg_us format 999999.99
-SET echo on
+--SET echo on
 
 SELECT   wait_class, event, total_waits AS waits,
          ROUND (time_waited_micro / 1000) AS total_ms,

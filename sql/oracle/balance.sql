@@ -22,7 +22,7 @@ col cpu_time_secs     format 9,999,999.99 heading "CPU Time|(secs)"
 
 set lines 80
 set pages 1000
-set echo on 
+--set echo on 
 
 
 WITH sys_time AS (
