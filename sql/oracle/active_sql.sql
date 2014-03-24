@@ -2,7 +2,6 @@ set linesize 999
 set pagesize 999
 set feedback off
 
-col sid format a10
 col username format a15
 col machine format a20
 col event format a30
