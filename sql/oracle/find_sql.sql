@@ -12,7 +12,7 @@ col etime format 9,999,999.99
 select sql_id, child_number, plan_hash_value plan_hash, executions execs, elapsed_time/1000000 etime,
 (elapsed_time/1000000)/decode(nvl(executions,0),0,1,executions) avg_etime, u.username,
 sql_text
-from v$sql s, dba_users u
+from gv$sql s, dba_users u
 where upper(sql_text) like upper(nvl('&sql_text',sql_text))
 and sql_text not like '%from v$sql where sql_text like nvl(%'
 and sql_id like nvl('&sql_id',sql_id)
