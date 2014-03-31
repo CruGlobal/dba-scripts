@@ -2,4 +2,4 @@
 
 set verify off
 
-SELECT SUM(bytes)/1024/1024 "Schema Size (MBs)" FROM dba_segments WHERE owner='&schema';
+SELECT SUM(bytes)/1024/1024 "Schema Size (MBs)" FROM dba_segments WHERE owner=UPPER('&schema');
