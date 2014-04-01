@@ -1,25 +1,27 @@
---work in progress
---slowest sql from last 24 hours
+--slowest sql from the last 24 hours
 
 set linesize 999
-set pagesize 999
+set pagesize 35
 
 col module format a40
 
-SELECT T.INSTANCE_NUMBER AS "Instance",
-  T.SQL_ID,
-  T.OPTIMIZER_COST AS "Cost",
-  T.MODULE,
-  T.PARSING_SCHEMA_NAME,
-  T.EXECUTIONS_TOTAL,
-  ROUND((T.ELAPSED_TIME_TOTAL)/1000000/T.EXECUTIONS_TOTAL) as "Time Per Execution(sec)"
-FROM dba_hist_sqlstat t,
-  dba_hist_snapshot s
-WHERE t.snap_id       = s.snap_id
-AND t.dbid            = s.dbid
-AND t.instance_number = s.instance_number
-AND s.begin_interval_time BETWEEN TRUNC(sysdate)-1 AND TRUNC(sysdate)
-AND PARSING_SCHEMA_NAME NOT IN ('SYS','ORACLE_OCM','DBSNMP')
-AND EXECUTIONS_TOTAL<>0
-AND ROUND((T.ELAPSED_TIME_TOTAL)/1000000/T.EXECUTIONS_TOTAL)>1
-ORDER BY ROUND((T.ELAPSED_TIME_TOTAL)/1000000/T.EXECUTIONS_TOTAL) DESC;
+SELECT * FROM (
+SELECT SQL_ID,
+    PARSING_SCHEMA_NAME,
+    MODULE,
+    SUM(EXECUTIONS_TOTAL) EXECUTIONS_TOTAL,
+    ROUND((SUM(ELAPSED_TIME_TOTAL)/1000000)/SUM(EXECUTIONS_TOTAL),2) AS "Time per Execution (sec)"
+  FROM DBA_HIST_SQLSTAT A,
+    DBA_HIST_SNAPSHOT B
+  WHERE A.SNAP_ID       = B.SNAP_ID
+  AND A.DBID            = B.DBID
+  AND A.INSTANCE_NUMBER = B.INSTANCE_NUMBER
+  AND B.BEGIN_INTERVAL_TIME BETWEEN TRUNC(SYSDATE)-1 AND TRUNC(SYSDATE)
+  AND PARSING_SCHEMA_NAME NOT IN ('SYS','ORACLE_OCM','DBSNMP')
+  AND EXECUTIONS_TOTAL <>0
+  GROUP BY SQL_ID,
+    PARSING_SCHEMA_NAME,
+    MODULE
+  ORDER BY 5 DESC)
+  --only show queries longer than .5 seconds
+  WHERE "Time per Execution (sec)" > 0.5;
