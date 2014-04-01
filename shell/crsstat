@@ -1,0 +1,358 @@
+#!/usr/bin/ksh 
+#
+# crsstat
+#
+# Written By:	Paul Elbow, Enkitec
+# Last Update:	2011-Oct-30
+# Usage:	crsstat [search criteria]
+#
+# Description:
+# This script is made to show a tabular format of CRS or HAS resources
+# (i.e. Cluster 10gR2-11gR2 or ASM/Single instance scenario 11gR2).  It should
+# work with 10gR2-11gR2 without changes.  The first time is run, it will attempt
+# to identify the Grid Infrastructure / CRS home and the version that is being
+# used (CRS/HAS must be up for it to gather)- it takes that information and
+# writes the info to a crsstat.env located in the same location as the script. 
+# Generally, it is practical to put the crsstat script in the /usr/local/bin
+# directory, so everyone will have access.  Just make sure the crsstat.env file
+# can be created in the /usr/local/bin directory the first time the script is
+# run.  The output of the script assumes a term width of 132 and attempts to
+# highlight possible issues, by showing in RED those resources with a target
+# of ONLINE and a state of OFFLINE.  You can also pass in search criteria as
+# the first and only parameter.
+#
+# Note 1:
+# It only gathers the information the first time, so if you upgrade the Oracle
+# software you will want to remove the crsstat.env and allow the script to
+# re-gather the information.  
+#
+# Note 2:
+# Also of note, per Oracle support document 1086563.1, the "State Details"
+# output in 11gR2 could show incorrect information, such as, 
+# "Instance Shutdown" even though it is up and running correctly.
+#
+# Note 3:
+# It has been used on AIX and Linux (SuSE, Red Hat, Oracle).  It has not been
+# tested on any other platforms.
+#
+# Update (1.1, 2011-Dec-08):
+#   Add version.  Added check for hasd.bin, in case where grid but not asm.
+#   Added check for SunOS/Solaris to use nawk instead of awk and updated
+#   code to use the AWK variable.
+#
+# Update (1.2, 2012-Mar-30):
+#   Add usage with -h or invalid switch.  
+#   Added field for cluster versus local resource and also output Cluster
+#   and Local resources in different sections with the -c switch.
+#   Added failure count FC and restart count RC to the report
+#
+# Update (1.2.1, 2012-Apr-10):
+#   Fixed issue with screen colors not returning to default by putting the reset before the \n.
+#
+# Update (1.2.2, 2012-Jun-12):
+#   Fixed issue with Cluster/Local showing the opposite of what it should have been
+#
+VERSION="1.2.2"
+
+if [[ `uname -s` = "SunOS" ]] ; then 
+  AWK=/usr/bin/nawk
+else
+  AWK=/usr/bin/awk
+fi
+
+
+function print_usage {
+  echo " "
+  echo "Usage: crsstat [-h] [-c] [search term]"
+  echo " "
+  echo "  -h => print this message"
+  echo "  -c => output the resources by cluster or local"
+  echo " "
+  echo "  Examples:"
+  echo "    crsstat               # show all resources"
+  echo "    crsstat listener      # only show listener resources"
+  echo "    crsstat database      # only show database resources"
+  echo "    crsstat -c listener   # only show database resources sorted by cluster/local"
+  echo " "
+  echo "  Output Contains the following fields:"
+  echo "    Resource Name"
+  echo "    Resource Type, which includes an identifier C-Cluster and L-Local"
+  echo "    Target State"
+  echo "    Current State"
+  echo "    Current Node (11gR2: or the last node in paraenthesis if the resource is Offline)"
+  echo "    Failure Count (11gR2 only)"
+  echo "    Restart Count (11gR2 only)"
+  echo "    State Details (11gR2 only)"
+  exit 101
+} # print_usage
+
+
+function get_cmdline_options {
+  while getopts ":chv" opt; do
+    case ${opt} in
+      c ) sort_cluster_local="true"
+          ;;
+      h ) print_usage
+          exit 10
+          ;;
+      v ) echo "Version: $VERSION"
+          exit 100
+          ;;
+      * ) echo "Error: Invalid option specified."
+          print_usage
+          exit 10
+          ;;
+    esac
+  done
+  shift $(($OPTIND -1))
+} # get_cmdline_options
+
+
+get_cmdline_options $@
+env_file=$(dirname $0)/crsstat.env
+if [[ -e ${env_file} ]] ; then
+  . ${env_file}
+else
+  CRSCMD="query crs softwareversion"
+  HASCMD="query has softwareversion"
+  # Try to auto-determine CRS or HAS home & version
+  CSSD_DIR=`dirname $( ps -eo args | grep ocssd.bin | grep -v grep | ${AWK} '{print $1}')`
+  if [[ ! -z ${CSSD_DIR} || ${CSSD_DIR} == "." ]] ; then
+    CSSD_DIR=$(dirname $( ps -eo args | grep hasd.bin | grep -v grep | ${AWK} '{print $1}'))
+  fi
+  if [[ ! -z ${CSSD_DIR} ]] ; then
+    GRID_HOME=`echo $CSSD_DIR|${AWK} '{print substr( $1, 1, length( $1)-4)}'`
+    retval=`${CSSD_DIR}/crsctl ${CRSCMD}`
+    rc=$?
+    if (( ${rc} != 0 )) ; then
+      retval=`${CSSD_DIR}/crsctl ${HASCMD}`
+      rc=$?
+      if (( ${rc} != 0 )); then
+        echo "The CRS or HAS version could not be determined."
+        echo "Commands to query for either failed."
+        echo "Exiting...."
+        exit 2
+      fi
+    fi
+    GRID_VER=`echo "${retval}" | ${AWK} '{print substr( $NF, 2, 4)}'`
+    if [[ ! -z ${GRID_HOME} || ! -z ${GRID_VER} ]] ; then
+      echo "GRID_HOME=${GRID_HOME}" > ${env_file}
+      echo "GRID_VER=${GRID_VER}" >> ${env_file}
+    fi
+  else
+    echo "The CRS or HAS home directory could not be determined."
+    echo "If CRS or HAS are down, this could be the cause of the error."
+    echo "Exiting...."
+    exit 1
+  fi
+fi
+
+if [[ -z ${GRID_HOME} || -z ${GRID_VER} ]] ; then
+  echo "The configuration of your GRID Infrastructure could not be determined."
+  echo "Exiting...." 
+  exit 5
+fi
+
+
+format_crs_status_resource='
+BEGIN {
+  FS="=";
+  ittype=empty
+  lastnode=""
+}
+{
+  if ( $1 == "NAME") {
+    tname=$2
+    tx=split( $2, tsplit, ".")
+    tabrev=tsplit[tx]
+    ttype="unknown"
+    if ( tabrev == "asm" )
+      ttype="ASM"
+    if ( tabrev == "lsnr" )
+      ttype="Listener"
+    if ( tabrev == "db" )
+      ttype="Database"
+    if ( tabrev == "inst" )
+      ttype="Instance"
+    if ( tabrev == "vip" )
+      ttype="Virtual IP"
+    if ( tabrev == "ons" )
+      ttype="Ora Notif Svc"
+    if ( tabrev == "cs" )
+      ttype="Service"
+    if ( tabrev == "srv" )
+      ttype="Service"
+  }
+  if ( $1 == "TYPE") {
+    ottype=$2
+    if (ottype == "application") {
+      ottype=ttype
+      ittype=empty
+    }
+    else {
+      tx=split( $2, tsplit, ".")
+      ittype=tsplit[2]
+      if ( ittype == "asm" )
+        ottype="ASM"
+      else if ( ittype == "gsd" )
+        ottype="Gbl Svc Daemon"
+      else if ( ittype == "listener" )
+        ottype="Listener"
+      else if ( ittype == "scan_listener" )
+        ottype="SCAN Listener"
+      else if ( ittype == "scan_vip" )
+        ottype="SCAN VIP"
+      else if ( ittype == "oc4j" )
+        ottype="OC4J"
+      else if ( ittype == "eons" )
+        ottype="eons"
+      else if ( ittype == "ons" )
+        ottype="Ora Notif Svc"
+      else if ( ittype == "network" )
+        ottype="Network (VIP)"
+      else if ( ittype == "cluster_vip_net1" )
+        ottype="Cluster VIP"
+      else ottype=ittype
+    }
+  }
+  if ( $1 == "CARDINALITY_ID" ) {
+    if ( $2 == "ONLINE" || $2 == "OFFLINE" ) {
+      rtype="L"
+    }
+    else {
+      rtype="C"
+    }
+  }
+  if ( $1 == "LAST_SERVER") {
+    lastnode="("$2")"
+  }
+  if ( $1 == "RESTART_COUNT") {
+    trc=$2
+  }
+  if ( $1 == "FAILURE_COUNT") {
+    tfc=$2
+  }
+  if ( $1 == "TARGET") {
+    ttarget=$2
+    tx=split( $2, targetsplit, ",")
+  }
+  if ( $1 == "STATE") {
+    if ( ittype == "asm" || ittype == "ons" || ittype == "eons" || ittype == "network" || ittype == "listener" ) {
+      stx=split( $2, statesplit, ",")
+    }
+    else {
+      tx=split( $2, tsplit, " ")
+      tstate=tsplit[1]
+      tnode=tsplit[3]
+    }
+  }
+  if ( $1 == "STATE_DETAILS") {
+    tdetail=$2
+    if ( ittype == "asm" || ittype == "ons" || ittype == "eons" || ittype == "network" || ittype == "listener" ) {
+      for (i in statesplit) {
+        tx=split( statesplit[i], tsplit, " ")
+        tstate=tsplit[1]
+        tnode=tsplit[3]
+        ttarget=targetsplit[i]
+        gsub(/ */,"",ttarget)
+        gsub(/ */,"",tstate)
+        if ( tnode == "" )
+          tnode=lastnode
+        if ( parm_rtype == "A" || ( parm_rtype == rtype ) ) {
+          if ( ttarget == "ONLINE" && tstate != "ONLINE" )
+            printf( "[0;31;40m%-40s %-14s %1s %-10s %-12s %-15s %2s %2s %s[0m\n", tname, ottype, rtype, ttarget, tstate, tnode, tfc, trc, tdetail)
+          else
+            printf( "[0;37;40m%-40s %-14s %1s %-10s %-12s %-15s %2s %2s %s[0m\n", tname, ottype, rtype, ttarget, tstate, tnode, tfc, trc, tdetail)
+        }
+      }
+    }
+    else {
+      if ( tnode == "" )
+        tnode=lastnode
+      if ( parm_rtype == "A" || ( parm_rtype == rtype ) ) {
+        if ( ttarget == "ONLINE" && tstate != "ONLINE" )
+          printf( "[0;31;40m%-40s %-14s %1s %-10s %-12s %-15s %2s %2s %s[0m\n", tname, ottype, rtype, ttarget, tstate, tnode, tfc, trc, tdetail)
+        else
+          printf( "[0;37;40m%-40s %-14s %1s %-10s %-12s %-15s %2s %2s %s[0m\n", tname, ottype, rtype, ttarget, tstate, tnode, tfc, trc, tdetail)
+      }
+    }
+  }
+}'
+# End of variable: format_crs_status_resource
+
+format_crs_stat='
+{
+  if ($1 == "NAME") {
+    tname=$2
+  }
+  if ($1 == "TYPE") {
+    ttype=$2
+  }
+  if ($1 == "TARGET") {
+    ttarget=$2
+  }
+  if ($1 == "STATE") {
+    split( $2, tsplit, " ")
+    tstate=tsplit[1]
+    tnode=tsplit[3]
+    if ( ttarget == "ONLINE" && tstate != "ONLINE" )
+      printf( "[0;31;40m%-40s %-14s %-10s %-12s %-15s[0m\n", tname, ttype, ttarget, tstate, tnode)
+    else
+      printf( "[0;37;40m%-40s %-14s %-10s %-12s %-15s[0m\n", tname, ttype, ttarget, tstate, tnode)
+  }
+}'
+# End of variable: format_crs_stat
+
+printf "[0;40;37m\n\n%-40s %-16s %-10s %-12s %-15s %-2s %-2s %s[0m\n" "Resource Name" "Resource Type" "Target" "State" "Node" "FC" "RC" "State Details"
+printf "[0;40;37m%-40s %-16s %-10s %-12s %-15s %-2s %-2s %s[0m\n" "----------------------------------------" "----------------" "----------" "------------" "---------------" "--" "--" "---------------"
+    
+if [[ ${GRID_VER} == "11.2" ]] ; then
+  format_output=${format_crs_status_resource}
+  if [[ "$1" != "-c" ]] ; then
+    searchterm=$1
+  elif [[ ! -z "$2" ]] ; then
+    searchterm=$2
+  fi
+  if [[ ! -z ${sort_cluster_local} ]] ; then
+    sort_cluster_local="local"
+    printf "[0;40;37mLocal Resources[0m\n"
+    printf "[0;40;37m--------------------------------------------------------------------------------\n"
+    if [[ -z ${searchterm} ]] ; then
+      ${GRID_HOME}/bin/crsctl status resource -v | ${AWK} -v "parm_rtype=L" "${format_output}"
+    else
+      ${GRID_HOME}/bin/crsctl status resource -v | ${AWK} -v "parm_rtype=L" "${format_output}" | grep -i "${searchterm}"
+    fi
+    sort_cluster_local="cluster"
+    printf "[0;40;37m\nCluster Resources[0m\n"
+    printf "[0;40;37m--------------------------------------------------------------------------------[0m\n"
+    if [[ -z ${searchterm} ]] ; then
+      ${GRID_HOME}/bin/crsctl status resource -v | ${AWK} -v "parm_rtype=C" "${format_output}"
+    else
+      ${GRID_HOME}/bin/crsctl status resource -v | ${AWK} -v "parm_rtype=C" "${format_output}" | grep -i "${searchterm}"
+    fi
+  else
+    if [[ -z ${searchterm} ]] ; then
+      ${GRID_HOME}/bin/crsctl status resource -v | ${AWK} -v "parm_rtype=A" "${format_output}"
+    else
+      ${GRID_HOME}/bin/crsctl status resource -v | ${AWK} -v "parm_rtype=A" "${format_output}" | grep -i "${searchterm}"
+    fi
+  fi
+else
+  if [[ -e ${GRID_HOME}/bin/crs_stat ]] ; then
+    format_output=${format_crs_stat}
+    if [[ "$1" != "-c" ]] ; then
+      searchterm=$1
+    elif [[ ! -z "$2" ]] ; then
+      searchterm=$2
+    fi
+    if [[ -z ${searchterm} ]] ; then
+      ${GRID_HOME}/bin/crs_stat | ${AWK} -F= "${format_output}"
+    else
+      ${GRID_HOME}/bin/crs_stat | ${AWK} -F= "${format_output}" | grep -i "${searchterm}"
+    fi
+  else
+    echo "crs_stat was not found in the ${GRID_HOME}/bin"
+  fi
+fi
+
+exit 0
