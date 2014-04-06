@@ -10,6 +10,7 @@ col sql_exec_start format a20
 
 SELECT INST_ID,
   SID,
+  SERIAL#, 
   PROCESS,
   USERNAME,
   PROGRAM,
