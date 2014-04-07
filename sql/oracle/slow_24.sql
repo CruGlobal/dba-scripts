@@ -1,4 +1,4 @@
---slowest sql from the last 24 hours
+--slowest individual queries from the last 24 hours
 
 set linesize 999
 set pagesize 50
@@ -10,7 +10,7 @@ SELECT * FROM (
 SELECT SQL_ID,
     PARSING_SCHEMA_NAME AS "Schema",
     MODULE,
-    SUM(EXECUTIONS_TOTAL) EXECUTIONS_TOTAL,
+    SUM(EXECUTIONS_TOTAL) AS "Total Executions",
     ROUND((SUM(ELAPSED_TIME_TOTAL)/1000000)/SUM(EXECUTIONS_TOTAL),2) AS "Time per Execution (sec)"
   FROM DBA_HIST_SQLSTAT A,
     DBA_HIST_SNAPSHOT B
