@@ -6,4 +6,4 @@ col pval2 format a30
 set linesize 999
 set pagesize 999
 
-SELECT * FROM AUX_STATS$;
+SELECT * FROM SYS.AUX_STATS$;
