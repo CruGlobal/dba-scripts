@@ -1,0 +1,14 @@
+#crsctl commands
+
+#List resource types
+crsctl stat res |grep "TYPE=" |uniq
+
+#List Cluster Managed Databases
+crsctl stat res -t -w "(TYPE = ora.database.type) or (TYPE=ora.service.type)"
+
+#List resources that are offline
+crsctl stat res -t -w "STATE = OFFLINE"
+
+#Check for resources that are not online (do not include ora.gsd)
+crsctl stat res -t -w "((TARGET != ONLINE) or (STATE != ONLINE) and (NAME != ora.gsd))"
+
