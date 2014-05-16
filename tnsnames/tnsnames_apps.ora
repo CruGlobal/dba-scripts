@@ -1,0 +1,386 @@
+#Dev/Test DatabasesFSCM9D.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=fscm9dapp.ccci.org)
+    )
+  )
+
+HCM9DU.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=hcm9duapp.ccci.org)
+    )
+  )
+
+IDMD.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=idmdapp.ccci.org)
+    )
+  )
+
+JFPWDEV.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=jfpwdevapp.ccci.org)
+    )
+  )
+
+METAD.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=metadapp.ccci.org)
+    )
+  )
+
+PCIDEV.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=pcidevapp.ccci.org)
+    )
+  )
+
+PSHCMD.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=pshcmdapp.ccci.org)
+    )
+  )
+
+SBLCRMD.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=sblcrmdapp.ccci.org)
+    )
+  )
+
+SBLCRMX.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=sblcrmxapp.ccci.org)
+    )
+  )
+
+SRDB.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=srdbapp.ccci.org)
+    )
+  )
+
+UCMD.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=ucmdapp.ccci.org)
+    )
+  )
+
+DSSREPLT.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=dssrepltapp.ccci.org)
+    )
+  )
+
+FSCM9T.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=fscm9tapp.ccci.org)
+    )
+  )
+
+HCM9T.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=hcm9tapp.ccci.org)
+    )
+  )
+
+IDMT.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=idmtapp.ccci.org)
+    )
+  )
+
+JFPWTEST.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=jfpwtestapp.ccci.org)
+    )
+  )
+
+METAT.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=metatapp.ccci.org)
+    )
+  )
+
+SBLCRMT.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=sblcrmtapp.ccci.org)
+    )
+  )
+
+SBLDWT.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=test-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=sbldwtapp.ccci.org)
+    )
+  )
+#Stage Databases
+FSCM9S.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=stage-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=fscm9sapp.ccci.org)
+    )
+  )
+
+HCM9STG.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=stage-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=hcm9stgapp.ccci.org)
+    )
+  )
+
+JFPWSTG.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=stage-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=jfpwstgapp.ccci.org)
+    )
+  )
+
+METAS.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=stage-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=metasapp.ccci.org)
+    )
+  )
+
+SBLCRMS.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=stage-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=sblcrmsapp.ccci.org)
+    )
+  )
+
+PSSTG.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=stage-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=psstgapp.ccci.org)
+    )
+  )
+#Prod RAC Databases
+FSCM9P.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=fscm9papp.ccci.org)
+    )
+  )
+
+HCM9P.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=hcm9papp.ccci.org)
+    )
+  )
+
+IDMP.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=idmpapp.ccci.org)
+    )
+  )
+
+JFPROD.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=jfprodapp.ccci.org)
+    )
+  )
+
+METAP.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=metapapp.ccci.org)
+    )
+  )
+
+PCIP.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=pcipapp.ccci.org)
+    )
+  )
+
+SBLCRMP.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=sblcrmpapp.ccci.org)
+    )
+  )
+
+UCMP.CCCI.ORG=  (DESCRIPTION=
+    (LOAD_BALANCE=yes)
+    (ADDRESS=
+      (PROTOCOL=TCP)      (HOST=prod-scan.ccci.org)      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=ucmpapp.ccci.org)
+    )
+  )
+#Stage Single Instance Databases
+SBLDWS.CCCI.ORG=
+  (DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=slorad60.ccci.org)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVICE_NAME=sbldws.ccci.org)
+    )
+  )
+#Prod Single Instance Databases
+SBLDWP.CCCI.ORG=
+  (DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=plorad60.ccci.org)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVICE_NAME=sbldwp.ccci.org)
+    )
+  )
