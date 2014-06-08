@@ -4,7 +4,8 @@ set feedback off
 
 col process format a15
 col username format a15
-col machine format a20
+col program format a30
+col client_identifier format a30
 col event format a30
 col sql_exec_start format a20
 
@@ -14,6 +15,7 @@ SELECT INST_ID,
   PROCESS,
   USERNAME,
   PROGRAM,
+  CLIENT_IDENTIFIER,
   SQL_ID,
   EVENT,
   SQL_EXEC_START
