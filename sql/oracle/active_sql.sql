@@ -4,7 +4,7 @@ set feedback off
 
 col process format a15
 col username format a15
-col program format a30
+col program format a32
 col client_identifier format a30
 col event format a30
 col sql_exec_start format a20
