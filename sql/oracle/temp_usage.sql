@@ -7,7 +7,7 @@ set feedback off
 col tablespace format a15
 col client_identifier format a30
 col username format a10
-col osuser format a10
+col osuser format a15
 col sql_exec_start format a20
 
 SELECT b.tablespace,
