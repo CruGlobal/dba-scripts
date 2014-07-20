@@ -8,6 +8,7 @@ col module format a40
 col Schema format a15
 
 accept numDays number prompt 'How many days to analyze? '
+accept numQueries number prompt 'How many queries? '
 
 SELECT * FROM (
 SELECT SQL_ID,
@@ -28,5 +29,4 @@ SELECT SQL_ID,
     PARSING_SCHEMA_NAME,
     MODULE
   ORDER BY 6 DESC)
-  --show top 250 queries
-  WHERE ROWNUM < 251;
+  WHERE ROWNUM <= &numQueries;
