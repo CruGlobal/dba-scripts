@@ -31,6 +31,7 @@
 - slow_total.sql - Most time consuming sql from the past X days
 - status.sql - Current instance status
 - table_size.sql - Show table size
+- tablespace_size.sql - Tablespace current size and free space
 - tbsp_usage_history.sql - Historical tablespace usage
 - temp_usage.sql - Amount of temporary tablespace used by active sessions.
 - topWaits.sql - Top wait events
