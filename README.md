@@ -22,6 +22,7 @@
 - find_sql_awr.sql - Find sql in AWR based on sql_id or sql text
 - fulltext.sql - Get full sql text for a given sql_id
 - io_calibrate.sql - Disk calibration for an ASM diskgroup
+- long_ops.sql - Monitor long running queries
 - maxshrink.sql - Shrink datafiles to reclaim disk space
 - my_sid.sql - What's my SID
 - rman_stat.sql - Status of an RMAN job including % complete
