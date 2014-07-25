@@ -30,6 +30,7 @@
 - schema_size.sql - Total size for a database schema
 - slow.sql - Slowest running sql statements from the past X days
 - slow_total.sql - Most time consuming sql from the past X days
+- stale_stats.sql- List tables and indexes with stale stats
 - status.sql - Current instance status
 - table_size.sql - Show table size
 - tablespace_size.sql - Tablespace current size and free space
