@@ -26,7 +26,7 @@ SELECT b.tablespace,
 FROM v$session a,
   v$sort_usage b
 WHERE a.saddr = b.session_addr
-ORDER BY b.tablespace,
+ORDER BY b.blocks desc,
+  b.tablespace,
   b.segfile#,
-  b.segblk#,
-  b.blocks;
+  b.segblk#;
