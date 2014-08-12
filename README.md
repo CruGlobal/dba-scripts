@@ -1,4 +1,5 @@
 ##Oracle SQL Scripts
+- all_index_columns.sql - List the indexes for a table with the columns in a single cell, ordered by position
 - active.sql - List active sessions in the database
 - awr_snap.sql - Take AWR snapshot
 - balance.sql - Show RAC balance
