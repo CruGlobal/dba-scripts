@@ -24,6 +24,7 @@
 - fulltext.sql - Get full sql text for a given sql_id
 - io_calibrate.sql - Disk calibration for an ASM diskgroup
 - kill_dash.sql - Kill hung dashing queries
+- large_obj.sql - List top 25 largest objects
 - long_ops.sql - Monitor long running queries
 - maxshrink.sql - Shrink datafiles to reclaim disk space
 - my_sid.sql - What's my SID
