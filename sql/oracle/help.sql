@@ -2,6 +2,7 @@ prompt ************************************
 prompt 		Available scripts
 prompt ************************************
 prompt
+prompt a					- Show active sessions in database
 prompt all_index_columns 	- List the indexes for a table with the columns in a single cell, ordered by position
 prompt active 			- List active sessions in the database
 prompt awr_snap 		- Take AWR snapshot
