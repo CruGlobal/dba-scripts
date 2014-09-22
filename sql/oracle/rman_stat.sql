@@ -1,6 +1,7 @@
 set feedback off
 
-SELECT SID,
+SELECT INST_ID,
+  SID,
   SERIAL#,
   CONTEXT,
   SOFAR,
