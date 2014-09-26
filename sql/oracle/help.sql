@@ -18,6 +18,7 @@ prompt db_components 		- List installed components and their current status
 prompt db_links     		- List database links
 prompt dgPerf 			- ASM diskgroup performance
 prompt dirs			- List database directories
+prompt dir_privs		- given a directory name returns users and their privs
 prompt dplan 			- Show explain plan for a sql_id
 prompt dplan_awr 		- Show explain plan for a sql_id from AWR
 prompt find_bind 		- Find bind variables for a sql_id
