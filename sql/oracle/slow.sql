@@ -8,6 +8,7 @@ col module format a40
 col Schema format a15
 
 accept numDays number prompt 'How many days to analyze? '
+accept numQueries number prompt 'How many queries? '
 
 SELECT * FROM (
 SELECT SQL_ID,
@@ -27,5 +28,4 @@ SELECT SQL_ID,
     PARSING_SCHEMA_NAME,
     MODULE
   ORDER BY 5 DESC)
-  --only show queries longer than .5 seconds
-  WHERE "Time per Execution (sec)" > 0.5;
+ WHERE ROWNUM <= &numQueries;
