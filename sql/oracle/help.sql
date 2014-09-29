@@ -2,11 +2,12 @@ prompt ************************************
 prompt 		Available scripts
 prompt ************************************
 prompt
-prompt a					- Show active sessions in database
+prompt a			- Show active sessions in database
 prompt all_index_columns 	- List the indexes for a table with the columns in a single cell, ordered by position
 prompt active 			- List active sessions in the database
 prompt awr_snap 		- Take AWR snapshot
 prompt balance			- Show RAC balance
+prompt blocking3.sql		- Shows who is blocking who
 prompt cre_idx			- Generate creation script for an index
 prompt cre_table 		- Generate creation script for a table
 prompt cre_tablespace 		- Generate creation script for a tablespace

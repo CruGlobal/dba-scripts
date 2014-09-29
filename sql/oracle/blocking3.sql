@@ -5,7 +5,9 @@ column blocker_module format a50;
 column blockee_module format a50;
 alter session set optimizer_mode=rule;
 
-select a.inst_id,
+select b.ctime "duration (sec)",
+a.type,
+ a.inst_id,
 (select username from gv$session s where s.inst_id=a.inst_id and s.sid=a.sid) blocker,
 a.sid,
 (select module from gv$session s where s.inst_id=a.inst_id and s.sid=a.sid) blocker_module ,
