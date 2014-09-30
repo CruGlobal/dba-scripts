@@ -4,7 +4,7 @@ set linesize 999
 set pagesize 50
 set verify off
 
-col module format a40
+col module format a50
 col Schema format a15
 
 accept numDays number prompt 'How many days to analyze? '
