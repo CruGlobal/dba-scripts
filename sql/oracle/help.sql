@@ -42,6 +42,7 @@ prompt slow 			- Slowest running sql statements from the past X days
 prompt slow_total 		- Most time consuming sql from the past X days
 prompt stale_stats 		- List tables and indexes with stale stats
 prompt status 			- Current instance status
+prompt syn_links		- lists synonyms using database links
 prompt table_size 		- Show table size
 prompt tablespace_size   	- Tablespace current size and free space
 prompt tbsp_usage_history 	- Historical tablespace usage
