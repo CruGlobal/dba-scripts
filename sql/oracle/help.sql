@@ -28,6 +28,7 @@ prompt find_library_cache_pin 	- Which objects has library cache pin contention
 prompt find_sql     		- Find sql based on sql_id or sql text
 prompt find_sql_awr 		- Find sql in AWR based on sql_id or sql text
 prompt fulltext      		- Get full sql text for a given sql_id
+prompt host			- tells what host, instance, db status and login status
 prompt io_calibrate 		- Disk calibration for an ASM diskgroup
 prompt kill_dash 		- Kill hung dashing queries
 prompt large_obj 		- List top 25 largest objects
