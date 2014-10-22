@@ -1,2 +1,5 @@
---size of current database
-select pg_size_pretty(pg_database_size(current_database())) as Database_Size;
+--size of all databases
+
+select datname AS Database, pg_size_pretty(pg_database_size(datname)) as Size
+from pg_database
+order by pg_database_size(datname) desc;
