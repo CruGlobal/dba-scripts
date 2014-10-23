@@ -32,6 +32,7 @@ prompt host			- tells what host, instance, db status and login status
 prompt io_calibrate 		- Disk calibration for an ASM diskgroup
 prompt kill_dash 		- Kill hung dashing queries
 prompt large_obj 		- List top 25 largest objects
+prompt log_info			- Group, thread, members and size of redo logs
 prompt log_interval		- Redo log switches for the past 48 hours
 prompt long_ops     		- Monitor long running queries
 prompt maxshrink 		- Shrink datafiles to reclaim disk space
