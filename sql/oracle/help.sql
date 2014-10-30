@@ -17,6 +17,7 @@ prompt datafiles 		- List datafiles and their status
 prompt db_characterset		- Database characterset value
 prompt db_components 		- List installed components and their current status
 prompt db_links     		- List database links
+prompt dbtime                   - Find busiest time periods in AWR.
 prompt dgPerf 			- ASM diskgroup performance
 prompt dirs			- List database directories
 prompt dir_privs		- given a directory name returns users and their privs
