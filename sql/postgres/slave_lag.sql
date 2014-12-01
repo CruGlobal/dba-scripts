@@ -1,0 +1,2 @@
+SELECT client_hostname, client_addr, pg_xlog_location_diff(pg_stat_replication.sent_location, pg_stat_replication.replay_location) AS byte_lag
+FROM pg_stat_replication;
