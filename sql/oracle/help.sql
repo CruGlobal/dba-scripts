@@ -37,6 +37,7 @@ prompt log_info			- Group, thread, members and size of redo logs
 prompt log_interval		- Redo log switches for the past 48 hours
 prompt long_ops     		- Monitor long running queries
 prompt maxshrink 		- Shrink datafiles to reclaim disk space
+prompt maxshrink_temp 		- Shrink tempfiles to reclaim disk space
 prompt my_sid			- What's my SID
 prompt rman_stat 		- Status of an RMAN job including % complete
 prompt sbl_alter_sessions 	- Alter session statements for tuning Siebel queries
