@@ -2,7 +2,7 @@
 --
 -- File name:   default_pass.sql
 --
--- Purpose:     Returns list of users that still have the default password 
+prompt Purpose:     Returns list of users that still have the default password 
 --
 -- Usage:      @default_pass.sql 
 --
