@@ -49,6 +49,7 @@ prompt status 			- Current instance status
 prompt syn_links		- lists synonyms using database links
 prompt table_size 		- Show table size
 prompt tablespace_size   	- Tablespace current size and free space
+prompt tablespace_size_32k   	- Tablespace current size and free space for 32k block size
 prompt tbsp_usage_history 	- Historical tablespace usage
 prompt temp_usage_8k 		- Amount of temporary tablespace used by active sessions in 8k blocksize database
 prompt temp_usage_32k 		- Amount of temporary tablespace used by active sessions in 32k blocksize database
