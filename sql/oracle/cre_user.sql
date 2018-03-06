@@ -1,10 +1,50 @@
-set verify off
-set long 99999
-set pagesize 9999
+clear screen
+accept user prompt 'Enter User Name : '
 
-EXEC DBMS_METADATA.SET_TRANSFORM_PARAM(DBMS_METADATA.SESSION_TRANSFORM,'SQLTERMINATOR',TRUE);
+SET LONG 20000 LONGCHUNKSIZE 20000 PAGESIZE 0 LINESIZE 1000 VERIFY OFF
 
-SELECT DBMS_METADATA.GET_DDL('USER',UPPER('&&user')) AS "Create User" FROM dual;
-SELECT DBMS_METADATA.GET_GRANTED_DDL('ROLE_GRANT',UPPER('&&user')) AS "Role Grants" from dual;
-SELECT DBMS_METADATA.GET_GRANTED_DDL('OBJECT_GRANT',UPPER('&&user')) AS "Object Grants" from dual;
-SELECT DBMS_METADATA.GET_GRANTED_DDL('SYSTEM_GRANT',UPPER('&&user')) AS "System Grants" from dual;
+BEGIN
+   DBMS_METADATA.set_transform_param (DBMS_METADATA.session_transform, 'SQLTERMINATOR', true);
+   DBMS_METADATA.set_transform_param (DBMS_METADATA.session_transform, 'PRETTY', true);
+END;
+/
+
+select (case 
+        when ((select count(*) from   dba_users
+               where  username = UPPER('&&user')) > 0)
+        then  dbms_metadata.get_ddl ('USER', UPPER('&&user')) 
+        else  to_clob ('   -- Note: User not found!')
+        end ) Extracted_DDL from dual
+UNION ALL
+select (case 
+        when ((select count(*)
+               from   dba_ts_quotas
+               where  username = UPPER('&&user')) > 0)
+        then  dbms_metadata.get_granted_ddl( 'TABLESPACE_QUOTA', UPPER('&&user')) 
+        else  to_clob ('   -- Note: No TS Quotas found!')
+        end ) from dual
+UNION ALL
+select (case 
+        when ((select count(*)
+               from   dba_role_privs
+               where  grantee = UPPER('&&user')) > 0)
+        then  dbms_metadata.get_granted_ddl ('ROLE_GRANT', UPPER('&&user')) 
+        else  to_clob ('   -- Note: No granted Roles found!')
+        end ) from dual
+UNION ALL
+select (case 
+        when ((select count(*)
+               from   dba_sys_privs
+               where  grantee = UPPER('&&user')) > 0)
+        then  dbms_metadata.get_granted_ddl ('SYSTEM_GRANT', UPPER('&&user')) 
+        else  to_clob ('   -- Note: No System Privileges found!')
+        end ) from dual
+UNION ALL
+select (case 
+        when ((select count(*)
+               from   dba_tab_privs
+               where  grantee = UPPER('&&user')) > 0)
+        then  dbms_metadata.get_granted_ddl ('OBJECT_GRANT', UPPER('&&user')) 
+        else  to_clob ('   -- Note: No Object Privileges found!')
+        end ) from dual
+/
